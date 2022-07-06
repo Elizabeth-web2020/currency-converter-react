@@ -1,6 +1,7 @@
 import React from "react";
 
-const CurrencyInput = ({ currencies, currency, amount, setAmount, setCurrency }) => {
+const CurrencyInput = ({ currencies, currency, amount, handleAmountChange, setCurrency }) => {
+  console.log('currencies', currencies)
   return (
     <div className="flex-1">
       <label className="font-bold text-sm mb-3 block" htmlFor="text">
@@ -13,7 +14,7 @@ const CurrencyInput = ({ currencies, currency, amount, setAmount, setCurrency })
           value={amount}
           size="lg"
           placeholder="Enter amount"
-          onChange={(e) => setAmount(e.target.value)}
+          onChange={(e) => handleAmountChange(e.target.value)}
         />
         <select
           value={currency}
@@ -21,7 +22,7 @@ const CurrencyInput = ({ currencies, currency, amount, setAmount, setCurrency })
           onChange={(e) => setCurrency(e.target.value)}
         >
           {currencies.map((currency) => (
-            <option value={currency}>{currency}</option>
+            <option key={currency} value={currency}>{currency}</option>
           ))}
         </select>
       </div>

@@ -5,12 +5,19 @@
 //     'X-RapidAPI-Host': 'currency-converter5.p.rapidapi.com'
 //   }
 // };
-export const currencyOptions = {method: 'GET', headers: {Accept: 'application/json'}};
+// export const currencyOptions = {method: 'GET', headers: {Accept: 'application/json'}};
+var myHeaders = new Headers();
+myHeaders.append("apikey", "DtLduFAAO7T5BmOkeFiGaaWj73Ch8vfu");
+
+export const currencyOptions = {
+  method: 'GET',
+  redirect: 'follow',
+  headers: myHeaders
+};
 
 export const fetchData = async (url, options) => {
   const response = await fetch(url, options);
   const data = await response.json();
-  console.log(data)
 
   return data;
 };
