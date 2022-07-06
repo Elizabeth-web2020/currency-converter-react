@@ -1,4 +1,4 @@
-import React, { useState, useEffect, memo } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { currencyOptions, fetchData } from '../utils/fetchData';
 import CurrencyInput from "./CurrencyInput";
 
@@ -22,22 +22,22 @@ const ConverterBox = ({ rates, format, exchangeRate, setExchangeRate }) => {
 
     if (currencyFirst != null && currencySecond != null) {
       const fetchCurrenciesData = async () => {
-        const newExchangeRateData = await fetchData(`https://api.fastforex.io/fetch-one?from=${currencyFirst}&to=${currencySecond}&api_key=c960a8b474-84f7e7faea-reipf2`, currencyOptions);
+        const newExchangeRateData = await fetchData(`https://api.fastforex.io/fetch-one?from=${currencyFirst}&to=${currencySecond}&api_key=${process.env.REACT_APP_RAPID_API_KEY}`, currencyOptions);
         setExchangeRate(newExchangeRateData.result[currencySecond]);
       };
         fetchCurrenciesData();
     }
     }, [currencyFirst, currencySecond])
 
-  function handleFromAmountChange(e) {
+  const handleFromAmountChange = useCallback((e) => {
     setAmount(e.target.value);
     setAmountInFromCurrency(true);
-  }
+  }, [])
 
-  function handleToAmountChange(e) {
+  const handleToAmountChange = useCallback((e) => {
     setAmount(e.target.value);
     setAmountInFromCurrency(false);
-  }
+  }, [])
 
   return (
     <div className="max-w-4xl m-auto pb-6 pt-14">
@@ -47,7 +47,6 @@ const ConverterBox = ({ rates, format, exchangeRate, setExchangeRate }) => {
         </h1>
         <form>
           <div className="flex flex-row mb-6 gap-9 items-center">
-            {/* <CurrencyInput currencies={ Object.keys(rates) } amount={amountFirst} currency={currencyFirst} handleAmountChange={handleAmountChange} setCurrency={setCurrencyFirst} /> */}
             <CurrencyInput currencies={ Object.keys(rates) } currency={currencyFirst} setCurrency={setCurrencyFirst} amount={fromAmount} onAmountChange={handleFromAmountChange} />
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -63,7 +62,6 @@ const ConverterBox = ({ rates, format, exchangeRate, setExchangeRate }) => {
                 d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
               />
             </svg>
-            {/* <CurrencyInput currencies={ Object.keys(rates) } amount={amountSecond} currency={currencySecond} setAmount={setAmountSecond} setCurrency={setCurrencySecond} /> */}
             <CurrencyInput currencies={ Object.keys(rates) } currency={currencySecond} setCurrency={setCurrencySecond} amount={toAmount} onAmountChange={handleToAmountChange} />
           </div>
         </form>

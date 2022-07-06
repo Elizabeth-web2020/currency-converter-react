@@ -1,7 +1,7 @@
 import React from "react";
 
 const CurrencyInput = ({ currencies, currency, amount, onAmountChange, setCurrency }) => {
-  // console.log('currencies', currencies)
+
   return (
     <div className="flex-1">
       <label className="font-bold text-sm mb-3 block" htmlFor="text">
