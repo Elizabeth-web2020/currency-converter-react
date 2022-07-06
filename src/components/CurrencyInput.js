@@ -1,7 +1,7 @@
 import React from "react";
 
-const CurrencyInput = ({ currencies, currency, amount, handleAmountChange, setCurrency }) => {
-  console.log('currencies', currencies)
+const CurrencyInput = ({ currencies, currency, amount, onAmountChange, setCurrency }) => {
+  // console.log('currencies', currencies)
   return (
     <div className="flex-1">
       <label className="font-bold text-sm mb-3 block" htmlFor="text">
@@ -14,7 +14,7 @@ const CurrencyInput = ({ currencies, currency, amount, handleAmountChange, setCu
           value={amount}
           size="lg"
           placeholder="Enter amount"
-          onChange={(e) => handleAmountChange(e.target.value)}
+          onChange={onAmountChange}
         />
         <select
           value={currency}

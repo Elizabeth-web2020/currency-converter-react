@@ -8,24 +8,30 @@ import Header from './components/Header';
 function App() {
 
   const [rates, setRates] = useState([]);
+  const [exchangeRate, setExchangeRate] = useState();
 
   useEffect(() => {
     const fetchCurrenciesData = async () => {
-      const latestRatesEndpointData = await fetchData('https://api.apilayer.com/fixer/latest?symbols=UAH%2CUSD%2CEUR&base=UAH', currencyOptions);
+      const latestRatesEndpointData = await fetchData('https://api.fastforex.io/fetch-multi?from=UAH&to=UAH%2CUSD%2CEUR&api_key=c960a8b474-84f7e7faea-reipf2', currencyOptions);
       
-      setRates(latestRatesEndpointData.rates);
-      // setCurrencyFirst(latestRatesEndpointData.base);
-      // setCurrencySecond(Object.keys(latestRatesEndpointData.results)[1])
+      setRates(latestRatesEndpointData.results);
+      setExchangeRate(latestRatesEndpointData.rates['UAH'])
     };
     fetchCurrenciesData();
   }, [])
 
-  // console.log('rates', rates)
+  function format(value, number) {
+      if (!(value % 1 == 0)) {
+        return value.toFixed(number);
+      } else {
+        return value;
+      }
+    }
 
   return (
     <>
-      <Header rates={Object.entries(rates)} />
-      <ConverterBox rates={rates} />
+      <Header rates={Object.entries(rates)} format={format} />
+      <ConverterBox rates={rates} format={format} exchangeRate={exchangeRate} setExchangeRate={setExchangeRate} />
     </>
   );
 }
